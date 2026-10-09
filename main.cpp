@@ -15,7 +15,7 @@ void task_1 () {
 
     cout << left << setw(15) << "char" << setw(10) << sizeof(char) << "Обычно код одного символа из ASCII" << endl;
 
-    cout << left << setw(15) << "short" << setw(10) << sizeof(short) << "Небольшие целые числа" << endl;
+    cout << left << setw(15) << "short int" << setw(10) << sizeof(short) << "Небольшие целые числа" << endl;
 
     cout << left << setw(15) << "int" << setw(10) << sizeof(int) << "Стандартные целые числа" << endl;
 
@@ -74,9 +74,10 @@ void task_2() {
     cout << endl << endl;
 }
 
+
 void task_3() {
     float float_number;
-    cout << "Введите дробное число:" << endl;
+    cout << "Введите дробное (float) число:" << endl;
     cin >> float_number;
 
     uint32_t float_bits = 0;
@@ -98,11 +99,38 @@ void task_3() {
     cout << endl << endl;
 }
 
+
+void task_4() {
+    double double_number;
+    cout << "Введите дробное (double) число:" << endl;
+    cin >> double_number;
+
+    uint64_t double_bits = 0;
+    short double_amount_bits = sizeof(double_number) * 8;
+    memcpy(&double_bits, &double_number, sizeof(double_number));
+    cout << "Бит знака | Биты порядка | Биты мантиссы" << endl;
+    cout << string(70, '-') << endl;
+
+    for (short i = double_amount_bits - 1; i >= 0; i--) {
+        cout << ((double_bits >> i) & 1u);
+
+        if (i == double_amount_bits - 1) {
+            cout << " | ";
+        }
+        else if (i == double_amount_bits - 12) {
+            cout << " | ";
+        }
+    }
+    cout << endl << endl;
+}
+
+
 int main () {
 
-    // task_1();
+    task_1();
     // task_2();
-    task_3();
+    // task_3();
+    // task_4();
     
     return 0;
 }
