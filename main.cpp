@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include <bitset>
+#include <string>
 #include <cstdint>
 #include <cstring>
 using namespace std;
@@ -32,14 +32,13 @@ void task_1 () {
 
 
 void task_2() {
-
-    int number;
-    cin >> number;
+    int number_1;
+    cout << "Введите целое число:" << endl;
+    cin >> number_1;
     
     uint32_t bits = 0;
-    short amount_bits = sizeof(number) * 8;
-
-    memcpy(&bits, &number, sizeof(number));
+    short amount_bits = sizeof(number_1) * 8;
+    memcpy(&bits, &number_1, sizeof(number_1));
 
     cout << setw(10) << "Бит знака" << " | " << "Биты числа" << endl;
     cout << string(43, '-') << endl;
@@ -48,9 +47,29 @@ void task_2() {
         cout << ((bits >> i) & 1u);
 
         if (i == amount_bits-1) {
-            cout << "         | ";
+            cout << " | ";
         }
     }
+
+    cout << endl << endl;
+
+    unsigned int unsigned_number;
+    cout << "Введите беззнаковое целое число: " << endl;
+    cin >> unsigned_number;
+
+    uint32_t unsigned_bits = 0;
+    short unsigned_amount_bits = sizeof(unsigned_number) * 8;
+
+    memcpy(&unsigned_bits, &unsigned_number, sizeof(unsigned_bits));
+
+    cout << "Биты беззнакового числа" << endl;
+    cout << string(40, '-') << endl;
+
+    for (int i = unsigned_amount_bits - 1; i >= 0; i--) {
+        cout << ((unsigned_bits >> i) & 1u);
+    }
+
+    cout << endl << endl;
 }
 
 int main () {
