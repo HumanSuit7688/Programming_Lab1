@@ -28,20 +28,22 @@ void task_1 () {
     cout << left << setw(15) << "double" << setw(10) << sizeof(double) << "Большая точность для дробных чисел" << endl;
 
     cout << left << setw(15) << "long double" << setw(10) << sizeof(long double) << "Ещё большая точность для дробных чисел" << endl;
+
+    cout << endl;
 }
 
 
 void task_2() {
-    int number_1;
+    int number;
     cout << "Введите целое число:" << endl;
-    cin >> number_1;
+    cin >> number;
     
     uint32_t bits = 0;
-    short amount_bits = sizeof(number_1) * 8;
-    memcpy(&bits, &number_1, sizeof(number_1));
+    short amount_bits = sizeof(number) * 8;
+    memcpy(&bits, &number, sizeof(number));
 
-    cout << setw(10) << "Бит знака" << " | " << "Биты числа" << endl;
-    cout << string(43, '-') << endl;
+    cout << "Бит знака | Биты числа" << endl;
+    cout << string(35, '-') << endl;
 
     for (int i = amount_bits-1; i >=0; i--) {
         cout << ((bits >> i) & 1u);
@@ -63,7 +65,7 @@ void task_2() {
     memcpy(&unsigned_bits, &unsigned_number, sizeof(unsigned_bits));
 
     cout << "Биты беззнакового числа" << endl;
-    cout << string(40, '-') << endl;
+    cout << string(32, '-') << endl;
 
     for (int i = unsigned_amount_bits - 1; i >= 0; i--) {
         cout << ((unsigned_bits >> i) & 1u);
@@ -72,10 +74,35 @@ void task_2() {
     cout << endl << endl;
 }
 
+void task_3() {
+    float float_number;
+    cout << "Введите дробное число:" << endl;
+    cin >> float_number;
+
+    uint32_t float_bits = 0;
+    short float_amount_bits = sizeof(float_number) * 8;
+    memcpy(&float_bits, &float_number, sizeof(float_number));
+    cout << "Бит знака | Биты порядка | Биты мантиссы" << endl;
+    cout << string(40, '-') << endl;
+
+    for (short i = float_amount_bits - 1; i >= 0; i--) {
+        cout << ((float_bits >> i) & 1u);
+
+        if (i == float_amount_bits - 1) {
+            cout << " | ";
+        }
+        else if (i == float_amount_bits - 9) {
+            cout << " | ";
+        }
+    }
+    cout << endl << endl;
+}
+
 int main () {
 
     // task_1();
-    task_2();
+    // task_2();
+    task_3();
     
     return 0;
 }
