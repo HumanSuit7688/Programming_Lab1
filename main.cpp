@@ -1,8 +1,12 @@
 #include <iostream>
 #include <iomanip>
+#include <bitset>
+#include <cstdint>
+#include <cstring>
 using namespace std;
 
-void task1 () {
+
+void task_1 () {
 
     cout << left << setw(15) << "Тип" << setw(10) << "Размер(байт) " << "Комментарий" << endl;
     cout << string(60, '-') << endl;
@@ -26,10 +30,33 @@ void task1 () {
     cout << left << setw(15) << "long double" << setw(10) << sizeof(long double) << "Ещё большая точность для дробных чисел" << endl;
 }
 
-int main () {
 
-    task1();
+void task_2() {
 
-    return 0;
+    int number;
+    cin >> number;
+    
+    uint32_t bits = 0;
+    short amount_bits = sizeof(number) * 8;
+
+    memcpy(&bits, &number, sizeof(number));
+
+    cout << setw(10) << "Бит знака" << " | " << "Биты числа" << endl;
+    cout << string(43, '-') << endl;
+
+    for (int i = amount_bits-1; i >=0; i--) {
+        cout << ((bits >> i) & 1u);
+
+        if (i == amount_bits-1) {
+            cout << "         | ";
+        }
+    }
 }
 
+int main () {
+
+    // task_1();
+    task_2();
+    
+    return 0;
+}
