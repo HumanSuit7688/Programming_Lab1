@@ -6,14 +6,13 @@
 using namespace std;
 
 
-uint8_t change_8bits (uint8_t bits, short action, short position) {
-    short amount_bits = sizeof(bits) * 8;
+uint64_t change_bits(uint64_t bits, short action, short position, short amount_bits) {
     if (position < 0 || position >= amount_bits) {
         cout << "Неверный номер бита" << endl;
         return bits;
     }
 
-    uint8_t mask = (uint8_t{1} << position);
+    uint64_t mask = uint64_t{1} << position;
 
     switch(action) {
         case 1:
@@ -24,82 +23,7 @@ uint8_t change_8bits (uint8_t bits, short action, short position) {
             break;
         case 3:
             bits ^= mask;
-            break;      
-    }
-
-    return bits;
-}
-
-
-uint16_t change_16bits (uint16_t bits, short action, short position) {
-    short amount_bits = sizeof(bits) * 8;
-    if (position < 0 || position >= amount_bits) {
-        cout << "Неверный номер бита" << endl;
-        return bits;
-    }
-
-    uint16_t mask = (uint16_t{1} << position);
-
-    switch(action) {
-        case 1:
-            bits |= mask;
             break;
-        case 2:
-            bits &= ~mask;
-            break;
-        case 3:
-            bits ^= mask;
-            break;      
-    }
-
-    return bits;
-}
-
-
-uint32_t change_32bits(uint32_t bits, short action, short position) {
-    short amount_bits = sizeof(bits) * 8;
-    if (position < 0 || position >= amount_bits) {
-        cout << "Неверный номер бита" << endl;
-        return bits;
-    }
-    
-    uint32_t mask = (1u << position);
-
-    switch(action) {
-        case 1:
-            bits |= mask;
-            break;
-        case 2:
-            bits &= ~mask;
-            break;
-        case 3:
-            bits ^= mask;
-            break;   
-    }
-
-    return bits;
-}
-
-
-uint64_t change_64bits (uint64_t bits, short action, short position) {
-    short amount_bits = sizeof(bits) * 8;
-    if (position < 0 || position >= amount_bits) {
-        cout << "Неверный номер бита" << endl;
-        return bits;
-    }
-
-    uint64_t mask = (uint64_t{1} << position);
-
-    switch(action) {
-        case 1:
-            bits |= mask;
-            break;
-        case 2:
-            bits &= ~mask;
-            break;
-        case 3:
-            bits ^= mask;
-            break;     
     }
 
     return bits;
@@ -118,7 +42,6 @@ long double change_long_double_bits(long double value, short action, short posit
 
     int byte_index = position / 8;
     int bit_index = position % 8;
-
     unsigned char mask = static_cast<unsigned char>(1u << bit_index);
 
     switch (action) {
@@ -151,11 +74,28 @@ void print_bits(uint64_t bits, int amount_bits) {
 }
 
 
-int main() {
-    cout << "Введите тип данных:" << endl;
-    string type;
-    getline(cin, type);
+bool is_allowed_type(string type, string allowed_types[], int amount_types) {
+    for (int i = 0; i < amount_types; i++) {
+        if (type == allowed_types[i]) {
+            return true;
+        }
+    }
+    return false;
+}
 
+
+int main() {
+    string allowed_types[8] = {"bool", "char", "short int", "int", "long int", "float", "double", "long double"};
+    string type;
+    do {
+        cout << "Введите тип данных:" << endl;
+        getline(cin, type);
+
+        if (!is_allowed_type(type, allowed_types, 8)) {
+            cout << "Неверный тип данных. Попробуйте еще раз." << endl;
+        }
+    } while (!is_allowed_type(type, allowed_types, 8));
+    
     short action;
     cout << "Выберите действие:" << endl;
     cout << "1 - Установить бит в 1" << endl;
@@ -179,7 +119,16 @@ int main() {
         cin >> value;
         uint8_t bits = 0;
         memcpy(&bits, &value, sizeof(value));
-        uint8_t result_bits = change_8bits(bits, action, position);
+        cout << "Исходные биты: " << endl;
+        
+        print_bits(bits, sizeof(value) * 8);
+        uint8_t result_bits = static_cast<uint8_t>(
+            change_bits(bits, action, position, sizeof(bits) * 8)
+        );
+
+        cout << "Изменённые биты: " << endl;
+        print_bits(result_bits, sizeof(value) * 8);
+
         if (result_bits > 1) {
             cout << "Неверное число для типа bool";
         }
@@ -198,7 +147,9 @@ int main() {
         cout << "Исходные биты: " << endl;
         print_bits(bits, sizeof(value) * 8);
 
-        uint8_t result_bits = change_8bits(bits, action, position);
+        uint8_t result_bits = static_cast<uint8_t>(
+            change_bits(bits, action, position, sizeof(bits) * 8)
+        );
         cout << "Изменённые биты: " << endl;
         print_bits(result_bits, sizeof(value) * 8);
 
@@ -211,11 +162,13 @@ int main() {
         cin >> value;
         uint16_t bits = 0;
         memcpy(&bits, &value, sizeof(value));
-        
+
         cout << "Исходные биты: " << endl;
         print_bits(bits, sizeof(value) * 8);
 
-        uint16_t result_bits = change_16bits(bits, action, position);
+        uint16_t result_bits = static_cast<uint16_t>(
+            change_bits(bits, action, position, sizeof(bits) * 8)
+        );
         cout << "Изменённые биты: " << endl;
         print_bits(result_bits, sizeof(value) * 8);
 
@@ -228,25 +181,29 @@ int main() {
         cin >> value;
         uint32_t bits = 0;
         memcpy(&bits, &value, sizeof(value));
-        
+
         cout << "Исходные биты: " << endl;
         print_bits(bits, sizeof(value) * 8);
 
-        uint32_t result_bits = change_32bits(bits, action, position);
+        uint32_t result_bits = static_cast<uint32_t>(
+            change_bits(bits, action, position, sizeof(bits) * 8)
+        );
         cout << "Изменённые биты: " << endl;
         print_bits(result_bits, sizeof(value) * 8);
 
         int result_value;
         memcpy(&result_value, &result_bits, sizeof(result_value));
         cout << "Результат: " << result_value;
-        
     }
     else if (type == "long int") {
         long int value;
         cin >> value;
         uint32_t bits = 0;
         memcpy(&bits, &value, sizeof(value));
-        uint32_t result_bits = change_32bits(bits, action, position);
+
+        uint32_t result_bits = static_cast<uint32_t>(
+            change_bits(bits, action, position, sizeof(bits) * 8)
+        );
         long int result_value;
         memcpy(&result_value, &result_bits, sizeof(result_value));
         cout << "Результат: " << result_value;
@@ -256,14 +213,16 @@ int main() {
         cin >> value;
         uint32_t bits = 0;
         memcpy(&bits, &value, sizeof(value));
-        
+
         cout << "Исходные биты: " << endl;
         print_bits(bits, sizeof(value) * 8);
 
-        uint32_t result_bits = change_32bits(bits, action, position);
+        uint32_t result_bits = static_cast<uint32_t>(
+            change_bits(bits, action, position, sizeof(bits) * 8)
+        );
         cout << "Изменённые биты: " << endl;
         print_bits(result_bits, sizeof(value) * 8);
-        
+
         float result_value;
         memcpy(&result_value, &result_bits, sizeof(result_value));
         cout << "Результат: " << result_value;
@@ -273,11 +232,12 @@ int main() {
         cin >> value;
         uint64_t bits = 0;
         memcpy(&bits, &value, sizeof(value));
-        
+
         cout << "Исходные биты: " << endl;
         print_bits(bits, sizeof(value) * 8);
 
-        uint64_t result_bits = change_64bits(bits, action, position);
+        uint64_t result_bits =
+            change_bits(bits, action, position, sizeof(bits) * 8);
         cout << "Изменённые биты: " << endl;
         print_bits(result_bits, sizeof(value) * 8);
 
