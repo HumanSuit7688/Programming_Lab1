@@ -44,7 +44,7 @@ int main() {
     cout << "Изменённые биты: " << endl;    
     print_bits(new_value, sizeof(value) * 8);
 
-    cout << new_value;
+    cout << "Результат" << new_value;
 
     return 0;
 }
