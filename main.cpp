@@ -114,41 +114,6 @@ void task_4() {
 }
 
 
-
-long double change_long_double_bits(long double value, short action, short position) {
-    int amount_bits = sizeof(value) * 8;
-
-    if (position < 0 || position >= amount_bits) {
-        cout << "Неверный номер бита" << endl;
-        return value;
-    }
-
-    unsigned char bytes[sizeof(value)];
-    memcpy(bytes, &value, sizeof(value));
-
-    int byte_index = position / 8;
-    int bit_index = position % 8;
-    unsigned char mask = static_cast<unsigned char>(1u << bit_index);
-
-    switch (action) {
-        case 1:
-            bytes[byte_index] |= mask;
-            break;
-        case 2:
-            bytes[byte_index] &= static_cast<unsigned char>(~mask);
-            break;
-        case 3:
-            bytes[byte_index] ^= mask;
-            break;
-    }
-
-    long double result_value;
-    memcpy(&result_value, bytes, sizeof(result_value));
-
-    return result_value;
-}
-
-
 bool is_allowed_type(string type, string allowed_types[], int amount_types) {
     for (int i = 0; i < amount_types; i++) {
         if (type == allowed_types[i]) {

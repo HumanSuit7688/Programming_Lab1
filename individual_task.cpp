@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdint>
 #include <cmath>
+#include <cstring>
 using namespace std;
 
 void print_bits(float value, int amount_bits) {
