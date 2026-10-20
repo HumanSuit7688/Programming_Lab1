@@ -317,18 +317,28 @@ void task_5() {
 int main() {
     cout << "Задание 1" << endl;
     task_1();
+    cout << "Задание 2" << endl;
+    task_2();
+    cout << "Задание 3" << endl;
+    task_3();
+    cout << "Задание 4" << endl;
+    task_4();
+    cout << "Задание 5" << endl << endl;
+    task_5();
 
     cout << "Выберите задание:" << endl;
     cout << "2 - Задание 2" << endl;
     cout << "3 - Задание 3" << endl;
     cout << "4 - Задание 4" << endl;
     cout << "5 - Задание 5" << endl;
-
     short task;
     cin >> task;
     cin.ignore();
 
     switch (task) {
+        case 1:
+            task_1();
+            break;
         case 2:
             task_2();
             break;
