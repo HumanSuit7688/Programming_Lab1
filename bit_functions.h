@@ -23,3 +23,9 @@ long double change_long_double_bits(
     short action,
     short position
 );
+
+long int change_long_int_and_print(
+    long int value,
+    short action,
+    short position
+);

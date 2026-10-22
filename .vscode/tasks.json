@@ -3,14 +3,15 @@
     "tasks": [
         {
             "type": "process",
-            "label": "C++: build active file",
+            "label": "C++: build Lab_1",
             "command": "C:/msys64/ucrt64/bin/g++.exe",
             "args": [
                 "-g",
                 "-std=c++17",
-                "${file}",
+                "${workspaceFolder}/main.cpp",
+                "${workspaceFolder}/bit_functions.cpp",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}.exe"
+                "${workspaceFolder}/main.exe"
             ],
             "options": {
                 "cwd": "${fileDirname}"
